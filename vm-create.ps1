@@ -92,7 +92,6 @@ Param(
 # Add VMware PowerCLI Snap-Ins
 #
    Add-PSSnapin VMware.VimAutomation.Core
-
 #
 # Connecting to vCenter
 #
