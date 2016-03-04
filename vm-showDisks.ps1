@@ -47,21 +47,18 @@ Param(
 #
 # Formated output
 #
-# vmXXXX
-# Name: Hard disk 26 / CapacityKB: 144703488 / CapacityGB: 138 / StorageFormat: Thin / Filename: [MTOCLS04_NA1_07] vmwl3703_clone/vmwl3703_clone_9-000001.vmdk / Id: VirtualMachine-vm-415626/2013
-#
    write-host $VMname
    write-host "__________"
    foreach($hd in Get-VM -Name $VMname | Get-HardDisk){
-     $capacityKB = $hd | select CapacityKB
-     $capacityGB = $hd | select CapacityGB
+     $capacityKB = $hd.CapacityKB
+     $capacityGB = $hd.CapacityGB
      $StorageFormat = $hd | select StorageFormat
-     $filename = $hd | select Filename
-     $id = $hd | select Id
+     $filename = $hd.Filename
+     $id = $hd.Id
      $scsiController = Get-ScsiController -HardDisk $hd
-     $scsiControllerType = $scsiController | select Type
+     $scsiControllerType = $scsiController.Type
 
-     write-host "Name:$hd / $capacityKB / $capacityGB / $StorageFormat / $filename / $id / C.Name:$scsicontroller / $scsiControllerType"
+     write-host "Name:$hd | CapacityKB:$capacityKB | CapacityGB:$capacityGB | $StorageFormat | Filename:$filename | Id:$id | C.Name:$scsicontroller | C.Type:$scsiControllerType"
      write-host "__________"
    }
 
