@@ -3,7 +3,7 @@
 #  .SYNOPSIS
 #
 #  vm-create -vCenter -cluster -VMname [-hostName=select] [-datastoreName=select] [-datastoreMask=null]
-#  [-NumCpu=4] [-MemoryMB=8192] [-DiskMB=51200]
+#  [-NumCpu=4] [-MemoryMB=8192] [-DiskMB=51200] [-force]
 #
 #  .DESCRIPTION
 #
@@ -29,10 +29,10 @@
 #     -datastoreName mostFree -datastoreMask local
 #
 #  4. Connects to isxvc1 vCenter and creates virtual machine named TestVM on specified host isxe0804.mars-ad.net
-#     in specified datastore ISXE0804_Local_Boot
+#     in specified datastore ISXE0804_Local_Boot without prompting for confirmation
 #
 #     vm-create.ps1 -vCenter isxvc1.mars-ad.net -cluster ISXMGTCLS -VMname TestVM -hostName isxe0804.mars-ad.net 
-#     -datastoreName ISXE0804_Local_Boot 
+#     -datastoreName ISXE0804_Local_Boot -force
 #
 #_______________________________________________________
 #  Start of parameters block
@@ -83,7 +83,12 @@ Param(
 #  Disk configuration (Default is 50GB)
 #
    [Parameter(Mandatory=$False)]
-   [string]$DiskMB=51200
+   [string]$DiskMB=51200,
+#
+#  Force flag
+#
+   [Parameter(Mandatory=$False)]
+   [switch]$force
 )
 #
 # End of parameters block
@@ -175,15 +180,24 @@ Param(
 #
 # Creating host
 #
-   $confirmation = Read-Host "Are you Sure Want To Proceed? (y|n)"
-   if ($confirmation -eq 'y') {
+   #Without confirmatiomn
+   if($force){
       write-host “Creating new virtual machine” -Foreground Yellow
       New-VM -Name $VMname -VMHost $selectedHost -Datastore $selectedDatastore -NumCpu $NumCpu -MemoryMB $MemoryMB -DiskMB $DiskMB
-      write-host “New virtual machine ”$VMname" created" -Foreground Green  
+      write-host “New virtual machine ”$VMname" created" -Foreground Green
+   }
+   #With confirmation
+   else{
+      $confirmation = Read-Host "Are you Sure Want To Proceed? (y|n)"
+      if ($confirmation -eq 'y') {
+         write-host “Creating new virtual machine” -Foreground Yellow
+         New-VM -Name $VMname -VMHost $selectedHost -Datastore $selectedDatastore -NumCpu $NumCpu -MemoryMB $MemoryMB -DiskMB $DiskMB
+         write-host “New virtual machine ”$VMname" created" -Foreground Green  
+      }
    }
 #
 # Disconnecting from vCenter
 #
     write-host “Disconnecting from vCenter Server $vCenter” -foreground Yellow
-    Disconnect-VIServer $vCenter
+    Disconnect-VIServer $vCenter -confirm:$false
     write-host “Disconnected from vCenter Server $vCenter” -foreground Green
