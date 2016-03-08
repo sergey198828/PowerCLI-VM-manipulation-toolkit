@@ -10,7 +10,7 @@
 #  PowerCLI script connects to specified vCenter and creates virtual machine in specified Cluster with  
 #  specified Name and parameters
 #
-#  .EXAMPLES
+#  .EXAMPLE
 #
 #  1. Connects to isxvc1 vCenter and creates virtual machine named TestVM on host which user promted to choose from console dialog of ISXMGTCLS
 #     cluster in datastore awailable for selected host which user also promted to choose from console dialog
@@ -139,7 +139,8 @@ Param(
         $counter++
       }
       $selectedDatastoreNumber = Read-Host "Select datastore (digits only)"
-      $selectedDatastore = $selectedDatastore[$selectedDatastoreNumber]
+      $selectedDatastore = $selectedDatastore[$selectedDatastoreNumber-1]
+      Write-Host "Datastore "$selectedDatastore" selected" -ForegroundColor Green
     }
     #Datastore with most free space awailable for host
     elseif($datastoreName -eq "mostFree"){

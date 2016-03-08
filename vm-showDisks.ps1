@@ -2,23 +2,22 @@
 #
 #  .SYNOPSIS
 #
-#  vm-showDisk [-vCenter="MTO-VC.mars-ad.net","ISXVC1.mars-ad.net"] -VMname
+#  vm-showDisks -VMname [-vCenter="MTO-VC.mars-ad.net","ISXVC1.mars-ad.net"]
 #
 #  .DESCRIPTION
 #
 #  PowerCLI script connects to specified vCenter or iterate over existing MTO and ISX farms and list specified VM disks with all possible parameters 
 #  (datastore, file, controller type and number, disk number, provision type, etc.)
 #
-#  .EXAMPLES
+#  .EXAMPLE
 #
+#  1. Connects to both mto-vc and isxvc1 vCenters to find TestVM and shows all its disks.
 #
-#  1. Connects to both mto-vc and isxvc1 vCenters and shows all discs for TestVM.
-#
-#     vm-showDisk.ps1 -VMname TestVM
+#     vm-showDisks.ps1 -VMname TestVM
 #
 #  2. Connects to isxvc1 vCenter and shows all discs for TestVM.
 #
-#     vm-showDisk.ps1 -VMname TestVM -vCenter isxvc1
+#     vm-showDisks.ps1 -VMname TestVM -vCenter isxvc1
 #
 #_______________________________________________________
 #  Start of parameters block
@@ -26,15 +25,15 @@
 [CmdletBinding()]
 Param(
 #
+#  VMname
+#
+   [Parameter(Mandatory=$True)]
+   [string]$VMname,
+#
 #  vCenter Server (Login and password will be supplied via SSO)
 #
    [Parameter(Mandatory=$False)]
-   $vCenter=@("MTO-VC.mars-ad.net","ISXVC1.mars-ad.net"),
-#
-#  VMname
-#
-   [Parameter(Mandatory=$True,Position=1)]
-   [string]$VMname
+   $vCenter=@("MTO-VC.mars-ad.net","ISXVC1.mars-ad.net")
 )
 #
 # End of parameters block
@@ -67,6 +66,7 @@ foreach($server in $vCenter){
 #
    write-host $VMname
    write-host "__________"
+   $counter = 1
    foreach($hd in Get-VM -Name $VMname | Get-HardDisk){
      $capacityKB = $hd.CapacityKB
      $capacityGB = $hd.CapacityGB
@@ -76,10 +76,10 @@ foreach($server in $vCenter){
      $scsiController = Get-ScsiController -HardDisk $hd
      $scsiControllerType = $scsiController.Type
 
-     write-host "Name:$hd | CapacityKB:$capacityKB | CapacityGB:$capacityGB | $StorageFormat | Filename:$filename | Id:$id | C.Name:$scsicontroller | C.Type:$scsiControllerType"
+     write-host "$counter. Name:$hd | CapacityKB:$capacityKB | CapacityGB:$capacityGB | $StorageFormat | Filename:$filename | Id:$id | C.Name:$scsicontroller | C.Type:$scsiControllerType"
      write-host "__________"
+     $counter++
    }
-
 #
 # Disconnecting from vCenter
 #
