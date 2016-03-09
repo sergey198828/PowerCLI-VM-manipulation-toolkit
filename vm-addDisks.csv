@@ -1,4 +1,4 @@
 CapacityKB,Datastore,DatastoreMask
 52428800,MostFree,local
-52428800,Select,Specify
-52428800,Select,Specify
+104857600,Select,
+157286400,Datastore_06S,

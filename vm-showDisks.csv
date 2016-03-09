@@ -1,0 +1,5 @@
+"Name","CapacityKB","CapacityGB","StorageFormat","Filename","Id","CName","CType","CId"
+"Hard disk 1","52428800","50","Thick","[Datastore 05S] iss-srv-prc-02/iss-srv-prc-02.vmdk","VirtualMachine-vm-801/2000","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:0]"
+"Hard disk 2","52428800","50","Thick","[Datastore 05S] iss-srv-prc-02/iss-srv-prc-02_6.vmdk","VirtualMachine-vm-801/2002","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:2]"
+"Hard disk 3","52428800","50","Thick","[Datastore 05S] iss-srv-prc-02/iss-srv-prc-02_7.vmdk","VirtualMachine-vm-801/2003","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:3]"
+"Hard disk 4","52428800","50","Thick","[Datastore 05S] iss-srv-prc-02/iss-srv-prc-02_5.vmdk","VirtualMachine-vm-801/2016","SCSI controller 1","VirtualLsiLogicSAS","SCSI[1:0]"

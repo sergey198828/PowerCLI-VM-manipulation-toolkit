@@ -4,6 +4,8 @@
 #
 #  vm-addDisks -VMname [-File="ScriptDirectory\vm-addDisks.csv"] [-vCenter="MTO-VC.mars-ad.net","ISXVC1.mars-ad.net"] [-force]
 #
+#  CSV File format: CapacityKB,Datastore(Select/mostFree/Specific),DatastoreMask(Stack with mostFree only)
+#
 #  .DESCRIPTION
 #
 #  PowerCLI script connects to specified vCenter or iterate over existing MTO and ISX farms and add CSV specified hard drives to specified VM
