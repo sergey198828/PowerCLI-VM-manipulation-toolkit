@@ -9,7 +9,7 @@
 #  PowerCLI script creates CSV specified virtual machines with CSV specified parameters
 #
 #  CSV File format: vCenter, Cluster, Host(select, random, specific), VMname, Datastore(select, mostFree, specific), DatastoreMask(Stacked with mostFree only),
-#  NumCpu, MemoryMB, DiskMB
+#  NumCpu, MemoryMB, DiskMB, DiskType(Thin, Thick), OS(select, specific), Network(select, specific)
 #
 #  .EXAMPLE
 #
@@ -61,6 +61,9 @@ Param(
       $NumCpu = $VM.NumCpu
       $MemoryMB = $VM.MemoryMB
       $DiskMB = $VM.DiskMB
+      $DiskStorageFormat = $VM.DiskStorageFormat
+      $OSid = $VM.OS
+      $NetworkName = $VM.Network
 #
 # Connecting to vCenter
 #
@@ -132,6 +135,50 @@ Param(
          Write-Host "Specified datastore "$selectedDatastore" selected" -ForegroundColor Green
       }
 #
+# Selecting OS
+#
+      write-host "Selecting OS" -Foreground Yellow
+      #Default option - user selects OS from list awailable for the vCenter
+      if($OSid -eq "select"){
+         $selectedOS = [System.Enum]::GetNames([VMware.Vim.VirtualMachineGuestOsIdentifier])
+         #Formated output
+         $counter=1
+         foreach ($OS in $selectedOS){
+            Write-Host $counter" "$OS
+            $counter++
+         }
+         $selectedOSNumber = Read-Host "Select OS (digits only)"
+         $selectedOS = $selectedOS[$selectedOSNumber-1]
+         Write-Host "OS "$selectedOS" selected" -ForegroundColor Green
+      }
+      #User specified datastore
+      else{
+         $selectedOS = $OSid
+         Write-Host "Specified datastore "$selectedOS" selected" -ForegroundColor Green
+      }
+#
+# Selecting Network
+#
+      write-host "Selecting Network" -Foreground Yellow
+      #Default option - user selects Network from list awailable for the vCenter
+      if($NetworkName -eq "select"){
+         $selectedNetwork = Get-VirtualPortGroup -VMHost $selectedHost
+         #Formated output
+         $counter=1
+         foreach ($Network in $selectedNetwork){
+            Write-Host $counter" "$Network
+            $counter++
+         }
+         $selectedNetworkNumber = Read-Host "Select network (digits only)"
+         $selectedNetwork = $selectedNetwork[$selectedNetworkNumber-1]
+         Write-Host "Network "$selectedNetwork" selected" -ForegroundColor Green
+      }
+      #User specified datastore
+      else{
+         $selectedNetwork = $NetworkName
+         Write-Host "Specified datastore "$selectedNetwork" selected" -ForegroundColor Green
+      }
+#
 # Resulted VMHost configuration
 #
       Write-Host "vCenter: "$vCenter -ForegroundColor Magenta
@@ -142,13 +189,16 @@ Param(
       Write-Host "Number of CPUs: "$NumCpu -ForegroundColor Magenta
       Write-Host "Memory(MB): "$MemoryMB -ForegroundColor Magenta
       Write-Host "Disk(MB): "$DiskMB -ForegroundColor Magenta
+      Write-Host "Disk storage format: "$DiskStorageFormat -ForegroundColor Magenta
+      Write-Host "OS: "$selectedOS -ForegroundColor Magenta
+      Write-Host "Network: "$selectedNetwork -ForegroundColor Magenta
 #
 # Creating host
 #
       #Without confirmatiomn
       if($force){
          write-host “Creating new virtual machine” -Foreground Yellow
-         New-VM -Name $VMname -VMHost $selectedHost -Datastore $selectedDatastore -NumCpu $NumCpu -MemoryMB $MemoryMB -DiskMB $DiskMB
+         New-VM -Name $VMname -VMHost $selectedHost -Datastore $selectedDatastore -NumCpu $NumCpu -MemoryMB $MemoryMB -DiskMB $DiskMB -DiskStorageFormat $DiskStorageFormat -GuestID $selectedOS -NetworkName $selectedNetwork
          write-host “New virtual machine ”$VMname" created" -Foreground Green
       }
       #With confirmation
@@ -156,7 +206,7 @@ Param(
          $confirmation = Read-Host "Are you Sure Want To Proceed? (y|n)"
          if ($confirmation -eq 'y') {
             write-host “Creating new virtual machine” -Foreground Yellow
-            New-VM -Name $VMname -VMHost $selectedHost -Datastore $selectedDatastore -NumCpu $NumCpu -MemoryMB $MemoryMB -DiskMB $DiskMB
+            New-VM -Name $VMname -VMHost $selectedHost -Datastore $selectedDatastore -NumCpu $NumCpu -MemoryMB $MemoryMB -DiskMB $DiskMB -DiskStorageFormat $DiskStorageFormat -GuestID $selectedOS -NetworkName $selectedNetwork
             write-host “New virtual machine ”$VMname" created" -Foreground Green  
          }
       }

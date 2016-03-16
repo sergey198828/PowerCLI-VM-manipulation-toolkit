@@ -1,3 +1,3 @@
-vCenter, Cluster, Host, VMname, Datastore, DatastoreMask, NumCpu, MemoryMB, DiskMB
-issvcenter,NON-PROD,select,iss-srv-prc-03,select,,4,8192,51200
-issvcenter,NON-PROD,random,iss-srv-prc-04,mostFree,Datastore 0,4,8192,51200
+vCenter, Cluster, Host, VMname, Datastore, DatastoreMask, NumCpu, MemoryMB, DiskMB,DiskType,OS,Network
+issvcenter,NON-PROD,select,iss-srv-prc-04,select,,4,8192,51200,Thin,select,select
+issvcenter,NON-PROD,random,iss-srv-prc-05,mostFree,Datastore 0,4,8192,51200,Thick,sles12_64Guest,VLAN 163
