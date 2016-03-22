@@ -1,4 +1,4 @@
-CapacityKB,Datastore,DatastoreMask
-52428800,MostFree,local
-104857600,Select,
-157286400,Datastore_06S,
+CapacityGB,Datastore,DatastoreMask,StorageFormat
+50,MostFree,Datastore,Thin
+50,Select,,Thin
+50,Datastore 06F,,Thin

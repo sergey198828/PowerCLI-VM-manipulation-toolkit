@@ -4,7 +4,7 @@
 #
 #  vm-addDisks -VMname [-File="ScriptDirectory\vm-addDisks.csv"] [-vCenter="MTO-VC.mars-ad.net","ISXVC1.mars-ad.net"] [-force]
 #
-#  CSV File format: CapacityKB,Datastore(Select/mostFree/Specific),DatastoreMask(Stack with mostFree only)
+#  CSV File format: CapacityGB,Datastore(Select/mostFree/Specific),DatastoreMask(Stack with mostFree only), StorageFormat(Thin, Thick)
 #
 #  .DESCRIPTION
 #
@@ -81,9 +81,10 @@ foreach($server in $vCenter){
    $line = 1
    foreach($hardDisk in $hardDisks){
       Write-Host "Reading line "$line
-      $capacityKB = $hardDisk.CapacityKB
+      $capacityGB = $hardDisk.CapacityGB
       $datastoreName = $hardDisk.Datastore
       $datastoreMask = $hardDisk.DatastoreMask
+      $storageFormat = $hardDisk.StorageFormat
 #
 # Selecting datastore
 #
@@ -93,7 +94,8 @@ foreach($server in $vCenter){
          #Formated output
          $counter=1
          foreach ($ds in $selectedDatastore){
-            Write-Host $counter" "$ds
+            $freeSpace = "{0:N0}" -f $ds.FreeSpaceGB
+            Write-Host $counter". "$ds" "$freeSpace"GB free"
             $counter++
          }
          $selectedDatastoreNumber = Read-Host "Select datastore (digits only)"
@@ -123,15 +125,16 @@ foreach($server in $vCenter){
 #
 # Resulted Disk configuration
 #
-    Write-Host "Capacity(KB): "$capacityKB -ForegroundColor Magenta
+    Write-Host "Capacity(GB): "$capacityGB -ForegroundColor Magenta
     Write-Host "Datastore: "$selectedDatastore -ForegroundColor Magenta
+    write-host "Storage format: "$storageFormat -ForegroundColor Magenta
 #
 # Disk creation
 #
    #Without confirmatiomn
    if($force){
       write-host “Adding disk to virtual machine” -Foreground Yellow
-      Get-VM -Name $VMname | New-HardDisk -CapacityKB $capacityKB -Datastore $selectedDatastore
+      Get-VM -Name $VMname | New-HardDisk -CapacityGB $capacityGB -Datastore $selectedDatastore -StorageFormat $storageFormat
       write-host “Disk added" -Foreground Green 
    }
    #With confirmation
@@ -139,7 +142,7 @@ foreach($server in $vCenter){
    $confirmation = Read-Host "Are you Sure Want To Proceed? (y|n)"
       if ($confirmation -eq 'y') {
          write-host “Adding disk to virtual machine” -Foreground Yellow
-         Get-VM -Name $VMname | New-HardDisk -CapacityKB $capacityKB -Datastore $selectedDatastore
+         Get-VM -Name $VMname | New-HardDisk -CapacityGB $capacityGB -Datastore $selectedDatastore -StorageFormat $storageFormat
          write-host “Disk added" -Foreground Green  
       }
    }

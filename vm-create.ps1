@@ -9,7 +9,7 @@
 #  PowerCLI script creates CSV specified virtual machines with CSV specified parameters
 #
 #  CSV File format: vCenter, Cluster, Host(select, random, specific), VMname, Datastore(select, mostFree, specific), DatastoreMask(Stacked with mostFree only),
-#  NumCpu, MemoryMB, DiskMB, DiskType(Thin, Thick), OS(select, specific), Network(select, specific)
+#  NumCpu, MemoryMB, DiskMB, DiskStorageFormat(Thin, Thick), OS(select, specific), Network(select, specific)
 #
 #  .EXAMPLE
 #
@@ -80,7 +80,11 @@ Param(
          #Formated output
          $counter=1
          foreach ($h in $selectedHost){
-            Write-Host $counter" "$h
+            $memoryTotal = "{0:N0}" -f $h.MemoryTotalGB
+            $memoryUsed = "{0:N0}" -f $h.MemoryUsageGB
+            $CPUTotal = "{0:N0}" -f $h.CpuTotalMhz
+            $CPUUsage = "{0:N0}" -f $h.CpuUsageMhz
+            Write-Host $counter". "$h" |"$memoryUsed"GB used out of "$memoryTotal"GB |"$CPUUsage"Mhz used out of " $CPUTotal"Mhz|"
             $counter++
          }
          $selectedHostNumber = Read-Host "Select host (digits only)"
@@ -107,7 +111,8 @@ Param(
          #Formated output
          $counter=1
          foreach ($ds in $selectedDatastore){
-            Write-Host $counter" "$ds
+            $freeSpace = "{0:N0}" -f $ds.FreeSpaceGB
+            Write-Host $counter". "$ds" "$freeSpace"GB free"
             $counter++
          }
          $selectedDatastoreNumber = Read-Host "Select datastore (digits only)"

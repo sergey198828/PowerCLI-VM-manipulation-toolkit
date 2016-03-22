@@ -1,3 +1,5 @@
 "Name","CapacityKB","CapacityGB","StorageFormat","Filename","Id","CName","CType","CId"
-"Hard disk 1","52428800","50","Thick","[Datastore 05S] iss-srv-prc-03_1/iss-srv-prc-03.vmdk","VirtualMachine-vm-826/2000","SCSI controller 0","VirtualLsiLogic","SCSI[0:0]"
-"Hard disk 2","104857600","100","Thick","[Datastore 05S] iss-srv-prc-03_1/iss-srv-prc-03_1.vmdk","VirtualMachine-vm-826/2001","SCSI controller 0","VirtualLsiLogic","SCSI[0:1]"
+"Hard disk 1","52428800","50","Thick","[Datastore 05S] iss-srv-prc-01_1/iss-srv-prc-01.vmdk","VirtualMachine-vm-828/2000","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:0]"
+"Hard disk 2","53687091200","51200","Thin","[Datastore 05S] iss-srv-prc-01_1/iss-srv-prc-01_2.vmdk","VirtualMachine-vm-828/2001","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:1]"
+"Hard disk 3","53687091200","51200","Thin","[Datastore 05S] iss-srv-prc-01_1/iss-srv-prc-01_3.vmdk","VirtualMachine-vm-828/2002","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:2]"
+"Hard disk 4","53687091200","51200","Thin","[Datastore 06F] iss-srv-prc-01/iss-srv-prc-01.vmdk","VirtualMachine-vm-828/2003","SCSI controller 0","VirtualLsiLogicSAS","SCSI[0:3]"
