@@ -1,3 +1,4 @@
 vCenter, Cluster, Host, VMname, Datastore, DatastoreMask, NumCpu, MemoryMB, DiskMB,DiskStorageFormat,OS,Network
 issvcenter,NON-PROD,select,iss-srv-prc-04,select,,4,8192,51200,Thin,select,select
 issvcenter,NON-PROD,random,iss-srv-prc-05,mostFree,Datastore 0,4,8192,51200,Thick,sles12_64Guest,VLAN 163
+issvcenter,NON-PROD,iss-srv-esx-01,iss-srv-prc-06,Datastore_1F,,4,8192,51200,Thick,windows8server64Guest,VLAN 163

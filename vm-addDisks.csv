@@ -1,2 +1,4 @@
 CapacityGB,Datastore,DatastoreMask,StorageFormat
-3,ISXCLS04_NA3_02,,Thick
+30,ISXCLS04_NA3_02,,Thick
+20,mostFree,ISXCLS,Thin
+10,select,,Thick
