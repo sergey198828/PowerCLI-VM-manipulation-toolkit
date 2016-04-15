@@ -1,4 +1,4 @@
-﻿#requires -version 4
+﻿#requires -version 3
 #
 #  .SYNOPSIS
 #
@@ -19,7 +19,7 @@
 #
 #  2. Connects to isxvc1 vCenter and create new hard disks specified in C:\NewDisks.csv without promting for confirmation
 #
-#     vm-addDisks.ps1 -VMname TestVM -vCenter isxvc1 -File="C:\NewDisks.csv" -force
+#     vm-addDisks.ps1 -VMname TestVM -vCenter isxvc1 -File "C:\NewDisks.csv" -force
 #
 #_______________________________________________________
 #  Start of parameters block

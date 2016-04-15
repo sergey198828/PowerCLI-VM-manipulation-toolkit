@@ -1,0 +1,3 @@
+VMname,NumCPU,ReservationMhz,LimitMhz,CPUPriority,RAMGB,ReservationGB,LimitGB,RAMPriority
+iss-srv-prc-01,4,,,Normal,8,,,normal
+iss-srv-prc-02,4,,,Normal,8,,,normal

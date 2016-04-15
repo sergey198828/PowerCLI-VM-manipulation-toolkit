@@ -1,4 +1,4 @@
-﻿#requires -version 4
+﻿#requires -version 3
 #
 #  .SYNOPSIS
 #
@@ -19,7 +19,7 @@
 #
 #  2. Parse C:\create.csv file and create specified VMs without prompting for confirmation for each
 #
-#     vm-create.ps1 -File="C:\create.csv" -force
+#     vm-create.ps1 -File "C:\create.csv" -force
 #
 #_______________________________________________________
 #  Start of parameters block
