@@ -1,0 +1,4 @@
+VMname,Role,Principal
+iss-srv-prc-01,ReadOnly,mars-ad\kiyanser
+iss-srv-prc-02,Admin,mars-ad\kiyanser
+iss-srv-prc-03,Virtual Machine Console Access,mars-ad\kiyanser
