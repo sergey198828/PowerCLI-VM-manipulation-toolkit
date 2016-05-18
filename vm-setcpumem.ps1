@@ -81,20 +81,20 @@ Param(
          else{
             write-host "Virtual machine "$VMname" found at "$server" vCenter"
          }
-
 #
 # Shutting VM down
 #
+         #Check if VM is running otherwise no shutdown required
          if ((Get-VM $VMname).PowerState -eq "PoweredOn") {
-            # Check if VM has VMware tools installed othervize ask user to shutdown it manually
+            #Check if VM has VMware tools installed otherwise ask user to shutdown it manually or install tools
             $toolsStatus = (Get-VM $VMname | Get-View).Guest.ToolsStatus
             if($toolsStatus -eq "toolsNotInstalled"){
-               write-host "VMware tools not installed on VM unable to shutdown gracefully. Please shutdown VM manually and then run scrupt again."
+               write-host "VMware tools not installed on VM, unable to shutdown gracefully. Please shutdown VM manually or install VMware tools and then run script again."
                continue
             }
-            #Check if installed tools is ok and make user aware
+            #Check if installed tools is not ok and make user aware about it
             if(!($toolsStatus -eq "toolsOk")){
-               $confirmation = Read-Host "Installed tools has "$toolsStatus" state we cant guarantee proper grace shutdown and recoment to shutdown VM manually and run the script again. Would you like to continue shutdown? (y|n)"
+               $confirmation = Read-Host "Installed tools has "$toolsStatus" state, we can't guarantee proper grace shutdown and recoment to shutdown VM manually or upgrade the tools and run the script again. Would you like to continue shutdown? (y|n)"
                if (!($confirmation -eq 'y')) {
                   continue
                }
