@@ -1,3 +1,2 @@
 VMname,NumCPU,ReservationMhz,LimitMhz,CPUPriority,RAMGB,ReservationGB,LimitGB,RAMPriority
-iss-srv-prc-01,4,1000,,Normal,8,2,,Normal
-iss-srv-prc-02,4,,2000,Low,8,,8,High
+vmwl5407,4,0,,Normal,8,0,,Normal
